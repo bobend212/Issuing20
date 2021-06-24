@@ -14,7 +14,6 @@ namespace IssuingDemo
 {
     public class PanelCutting : Templates
     {
-
         public async Task GeneratePanelCutting()
         {
             var intSq = new List<PanelCuttingModel>();

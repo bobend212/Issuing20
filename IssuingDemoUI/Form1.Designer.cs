@@ -39,9 +39,11 @@ namespace IssuingDemoUI
             this.txtPlot = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cbSetRef = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnRunIssuing = new System.Windows.Forms.Button();
             this.cbPanels = new System.Windows.Forms.CheckBox();
             this.cbCutting = new System.Windows.Forms.CheckBox();
+            this.cbSheathing = new System.Windows.Forms.CheckBox();
+            this.btnOpenIssuing = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -64,6 +66,7 @@ namespace IssuingDemoUI
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnOpenIssuing);
             this.groupBox1.Controls.Add(this.flowLayoutPanel1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
@@ -144,16 +147,16 @@ namespace IssuingDemoUI
             this.cbSetRef.Size = new System.Drawing.Size(250, 23);
             this.cbSetRef.TabIndex = 7;
             // 
-            // button1
+            // btnRunIssuing
             // 
-            this.button1.BackColor = System.Drawing.Color.MediumSpringGreen;
-            this.button1.Location = new System.Drawing.Point(478, 360);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(113, 51);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Run Issuing";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.btnRunIssuing.BackColor = System.Drawing.Color.MediumSpringGreen;
+            this.btnRunIssuing.Location = new System.Drawing.Point(478, 360);
+            this.btnRunIssuing.Name = "btnRunIssuing";
+            this.btnRunIssuing.Size = new System.Drawing.Size(113, 51);
+            this.btnRunIssuing.TabIndex = 4;
+            this.btnRunIssuing.Text = "Run Issuing";
+            this.btnRunIssuing.UseVisualStyleBackColor = false;
+            this.btnRunIssuing.Click += new System.EventHandler(this.btnRunIssuing_Click_1);
             // 
             // cbPanels
             // 
@@ -175,14 +178,35 @@ namespace IssuingDemoUI
             this.cbCutting.Text = "Cutting";
             this.cbCutting.UseVisualStyleBackColor = true;
             // 
+            // cbSheathing
+            // 
+            this.cbSheathing.AutoSize = true;
+            this.cbSheathing.Location = new System.Drawing.Point(315, 103);
+            this.cbSheathing.Name = "cbSheathing";
+            this.cbSheathing.Size = new System.Drawing.Size(79, 19);
+            this.cbSheathing.TabIndex = 7;
+            this.cbSheathing.Text = "Sheathing";
+            this.cbSheathing.UseVisualStyleBackColor = true;
+            // 
+            // btnOpenIssuing
+            // 
+            this.btnOpenIssuing.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnOpenIssuing.Location = new System.Drawing.Point(0, 348);
+            this.btnOpenIssuing.Name = "btnOpenIssuing";
+            this.btnOpenIssuing.Size = new System.Drawing.Size(113, 51);
+            this.btnOpenIssuing.TabIndex = 8;
+            this.btnOpenIssuing.Text = "Open Issuing";
+            this.btnOpenIssuing.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(603, 423);
+            this.Controls.Add(this.cbSheathing);
             this.Controls.Add(this.cbCutting);
             this.Controls.Add(this.cbPanels);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnRunIssuing);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -209,8 +233,10 @@ namespace IssuingDemoUI
         private System.Windows.Forms.TextBox txtPlot;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbSetRef;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRunIssuing;
         private System.Windows.Forms.CheckBox cbPanels;
         private System.Windows.Forms.CheckBox cbCutting;
+        private System.Windows.Forms.CheckBox cbSheathing;
+        private System.Windows.Forms.Button btnOpenIssuing;
     }
 }

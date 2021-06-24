@@ -65,6 +65,7 @@ namespace IssuingDemo
             if (ws.Name.Contains("Panel")) ws.Cells["A8"].Value = ws.Name + " List";
             if (ws.Name.Contains("Cut")) ws.Cells["A8"].Value = ws.Name + "ting";
             if (ws.Name.Contains("Bat")) ws.Cells["A8"].Value = "Ultima Inside " + ws.Name + "ten List";
+            if (ws.Name.Contains("Sh")) ws.Cells["A8"].Value = ws.Name + "eathing";
 
 
             ws.Cells["A8:G8"].Merge = true;

@@ -15,8 +15,6 @@ namespace IssuingDemo
 {
     static public class Program
     {
-
-
         static async Task Main(string[] args)
         {
             PanelMaking iss = new PanelMaking();
