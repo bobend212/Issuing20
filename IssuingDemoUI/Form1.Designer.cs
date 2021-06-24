@@ -32,6 +32,7 @@ namespace IssuingDemoUI
             this.label1 = new System.Windows.Forms.Label();
             this.txtClientName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnOpenIssuing = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.txtJobNo = new System.Windows.Forms.TextBox();
@@ -43,7 +44,7 @@ namespace IssuingDemoUI
             this.cbPanels = new System.Windows.Forms.CheckBox();
             this.cbCutting = new System.Windows.Forms.CheckBox();
             this.cbSheathing = new System.Windows.Forms.CheckBox();
-            this.btnOpenIssuing = new System.Windows.Forms.Button();
+            this.cbInsulation = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -74,6 +75,16 @@ namespace IssuingDemoUI
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data";
+            // 
+            // btnOpenIssuing
+            // 
+            this.btnOpenIssuing.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnOpenIssuing.Location = new System.Drawing.Point(0, 348);
+            this.btnOpenIssuing.Name = "btnOpenIssuing";
+            this.btnOpenIssuing.Size = new System.Drawing.Size(113, 51);
+            this.btnOpenIssuing.TabIndex = 8;
+            this.btnOpenIssuing.Text = "Open Issuing";
+            this.btnOpenIssuing.UseVisualStyleBackColor = false;
             // 
             // flowLayoutPanel1
             // 
@@ -188,21 +199,22 @@ namespace IssuingDemoUI
             this.cbSheathing.Text = "Sheathing";
             this.cbSheathing.UseVisualStyleBackColor = true;
             // 
-            // btnOpenIssuing
+            // cbInsulation
             // 
-            this.btnOpenIssuing.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.btnOpenIssuing.Location = new System.Drawing.Point(0, 348);
-            this.btnOpenIssuing.Name = "btnOpenIssuing";
-            this.btnOpenIssuing.Size = new System.Drawing.Size(113, 51);
-            this.btnOpenIssuing.TabIndex = 8;
-            this.btnOpenIssuing.Text = "Open Issuing";
-            this.btnOpenIssuing.UseVisualStyleBackColor = false;
+            this.cbInsulation.AutoSize = true;
+            this.cbInsulation.Location = new System.Drawing.Point(315, 128);
+            this.cbInsulation.Name = "cbInsulation";
+            this.cbInsulation.Size = new System.Drawing.Size(78, 19);
+            this.cbInsulation.TabIndex = 8;
+            this.cbInsulation.Text = "Insulation";
+            this.cbInsulation.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(603, 423);
+            this.Controls.Add(this.cbInsulation);
             this.Controls.Add(this.cbSheathing);
             this.Controls.Add(this.cbCutting);
             this.Controls.Add(this.cbPanels);
@@ -238,5 +250,6 @@ namespace IssuingDemoUI
         private System.Windows.Forms.CheckBox cbCutting;
         private System.Windows.Forms.CheckBox cbSheathing;
         private System.Windows.Forms.Button btnOpenIssuing;
+        private System.Windows.Forms.CheckBox cbInsulation;
     }
 }

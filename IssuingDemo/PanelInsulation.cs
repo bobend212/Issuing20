@@ -12,34 +12,35 @@ using System.Threading.Tasks;
 
 namespace IssuingDemo
 {
-    public class PanelSheathing : Templates
+    public class PanelInsulation : Templates
     {
-        public async Task GeneratePanelSheathing()
+        public async Task GeneratePanelInsulation()
         {
-            var intSq = new List<PanelSheathingModel>();
-            var intAng = new List<PanelSheathingModel>();
-            var extSq = new List<PanelSheathingModel>();
-            var extAng = new List<PanelSheathingModel>();
+            var intSq = new List<PanelInsulationModel>();
+            var intAng = new List<PanelInsulationModel>();
+            var extSq = new List<PanelInsulationModel>();
+            var extAng = new List<PanelInsulationModel>();
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            using (var reader = new StreamReader(@"C:\Users\mateusz.konopka\Work Folders\Desktop\Issuing 2.0\19007GF_sheathing.csv"))
+            using (var reader = new StreamReader(@"C:\Users\mateusz.konopka\Work Folders\Desktop\Issuing 2.0\19007GF_insulation.csv"))
             {
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
                     while (csv.Read())
                     {
-                        var record = new PanelSheathingModel
+                        var record = new PanelInsulationModel
                         {
                             PanelType = csv.GetField<string>(0),
                             PanelRef = csv.GetField<string>(1),
                             PanelSquareAngled = csv.GetField<string>(2),
-                            Type = csv.GetField<string>(3),
+                            Number = csv.GetField<int>(3),
                             Material = csv.GetField<string>(4),
                             Thickness = csv.GetField<double>(5),
                             Height = csv.GetField<double>(6),
                             Width = csv.GetField<double>(7),
-                            Qty = csv.GetField<int>(8)
+                            Qty = csv.GetField<int>(8),
+                            Area = csv.GetField<double>(9)
                         };
 
                         if (record.PanelType == "Int" && record.PanelSquareAngled == "Sq") intSq.Add(record);
@@ -55,29 +56,29 @@ namespace IssuingDemo
 
                     if (intSq.Count > 0)
                     {
-                        await SaveExcelFile(intSq, file, "INT SQ Sh");
+                        await SaveExcelFile(intSq, file, "INT SQ Ins");
                     }
 
                     if (intAng.Count > 0)
                     {
-                        await SaveExcelFile(intAng, file, "INT ANG Sh");
+                        await SaveExcelFile(intAng, file, "INT ANG Ins");
                     }
 
                     if (extSq.Count > 0)
                     {
-                        await SaveExcelFile(extSq, file, "EXT SQ Sh");
+                        await SaveExcelFile(extSq, file, "EXT SQ Ins");
                     }
 
                     if (extAng.Count > 0)
                     {
-                        await SaveExcelFile(extAng, file, "EXT ANG Sh");
+                        await SaveExcelFile(extAng, file, "EXT ANG Ins");
                     }
 
                 }
             }
         }
-        
-        private async Task SaveExcelFile(IEnumerable<PanelSheathingModel> panels, FileInfo file, string wsName)
+
+        private async Task SaveExcelFile(IEnumerable<PanelInsulationModel> panels, FileInfo file, string wsName)
         {
 
             var panelRefs = panels
@@ -85,9 +86,9 @@ namespace IssuingDemo
                .Distinct()
                .ToList();
 
-            var panelSheathing = panels
-               .Select(x => new { x.PanelRef, x.Type, x.Material, x.Thickness, x.Height, x.Width, x.Qty })
-               .OrderByDescending(x => x.Thickness)
+            var panelInsulation = panels
+               .Select(x => new { x.PanelRef, x.Number, x.Material, x.Thickness, x.Height, x.Width, x.Qty, x.Area })
+               .OrderBy(x => x.Number)
                .ToList();
 
             using (var package = new ExcelPackage(file))
@@ -96,7 +97,8 @@ namespace IssuingDemo
 
                 CreateTemplateTop(ws);
                 ws.Cells["C1:D1"].AutoFitColumns();
-                ws.Column(2).Width = 16.29 * 1.0463;
+                ws.Column(6).Width = 10 * 1.0463;
+                ws.Column(7).Width = 9 * 1.0463;
 
                 var cells = ws.Cells;
 
@@ -113,20 +115,21 @@ namespace IssuingDemo
 
                     maxRow++;
 
-                    AddHeadersPanelSheathing(ws, maxRow);
-
-                    for (int j = 0; j < panelSheathing.Count; j++)
+                    AddHeadersPanelInsulation(ws, maxRow);
+                    double totalArea = 0;
+                    for (int j = 0; j < panelInsulation.Count; j++)
                     {
-                        if (panelRefs[i].PanelRef == panelSheathing[j].PanelRef)
+                        if (panelRefs[i].PanelRef == panelInsulation[j].PanelRef)
                         {
                             maxRow++;
 
-                            ws.Cells[maxRow, 1].Value = panelSheathing[j].Type;
-                            ws.Cells[maxRow, 2].Value = panelSheathing[j].Material;
-                            ws.Cells[maxRow, 3].Value = panelSheathing[j].Thickness;
-                            ws.Cells[maxRow, 4].Value = panelSheathing[j].Height;
-                            ws.Cells[maxRow, 5].Value = panelSheathing[j].Width;
-                            ws.Cells[maxRow, 6].Value = panelSheathing[j].Qty;
+                            ws.Cells[maxRow, 1].Value = panelInsulation[j].Number;
+                            ws.Cells[maxRow, 2].Value = panelInsulation[j].Material;
+                            ws.Cells[maxRow, 3].Value = panelInsulation[j].Thickness;
+                            ws.Cells[maxRow, 4].Value = panelInsulation[j].Height;
+                            ws.Cells[maxRow, 5].Value = panelInsulation[j].Width;
+                            ws.Cells[maxRow, 6].Value = panelInsulation[j].Qty;
+                            ws.Cells[maxRow, 7].Value = panelInsulation[j].Area;
 
                             AllignLeft(ws, maxRow, 1);
                             AllignLeft(ws, maxRow, 2);
@@ -134,8 +137,20 @@ namespace IssuingDemo
                             AllignLeft(ws, maxRow, 4);
                             AllignLeft(ws, maxRow, 5);
                             AllignLeft(ws, maxRow, 6);
+                            AllignLeft(ws, maxRow, 7);
+
+                            totalArea += panelInsulation[j].Area;
                         }
+
                     }
+                    maxRow++;
+                    ws.Cells[maxRow, 6].Value = "Total Area:";
+                    ws.Cells[maxRow, 7].Value = Math.Round(totalArea, 2) + "m2";
+
+                    ws.Cells[maxRow, 6].Style.Font.Bold = true;
+                    ws.Cells[maxRow, 7].Style.Font.Bold = true;
+                    AllignLeft(ws, maxRow, 6);
+                    AllignLeft(ws, maxRow, 7);
                     maxRow++;
                 }
                 await package.SaveAsync();
@@ -148,7 +163,7 @@ namespace IssuingDemo
             ws.Cells[maxRow, cell].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
         }
 
-        private static void AddHeadersPanelSheathing(ExcelWorksheet ws, int maxRow)
+        private static void AddHeadersPanelInsulation(ExcelWorksheet ws, int maxRow)
         {
             ws.Cells[maxRow, 1].Value = "Description";
             ws.Cells[maxRow, 1].Style.Font.Bold = true;
@@ -173,6 +188,10 @@ namespace IssuingDemo
             ws.Cells[maxRow, 6].Value = "Qty";
             ws.Cells[maxRow, 6].Style.Font.Bold = true;
             ws.Cells[maxRow, 6].Style.Font.Italic = true;
+
+            ws.Cells[maxRow, 7].Value = "Area";
+            ws.Cells[maxRow, 7].Style.Font.Bold = true;
+            ws.Cells[maxRow, 7].Style.Font.Italic = true;
         }
     }
 }

@@ -23,6 +23,7 @@ namespace IssuingDemoUI
             PanelMaking panelMaking = new PanelMaking();
             PanelCutting panelCutting = new PanelCutting();
             PanelSheathing panelSheathing = new PanelSheathing();
+            PanelInsulation panelInsulation = new PanelInsulation();
 
             panelMaking._clientName = txtClientName.Text;
             panelMaking._jobNo = txtJobNo.Text;
@@ -39,6 +40,13 @@ namespace IssuingDemoUI
             panelSheathing._plot = txtPlot.Text;
             panelSheathing._setRef = cbSetRef.Text;
 
+            panelInsulation._clientName = txtClientName.Text;
+            panelInsulation._jobNo = txtJobNo.Text;
+            panelInsulation._plot = txtPlot.Text;
+            panelInsulation._setRef = cbSetRef.Text;
+
+            //insulation
+            if (cbInsulation.Checked) await panelInsulation.GeneratePanelInsulation();
             //sheathing
             if (cbSheathing.Checked) await panelSheathing.GeneratePanelSheathing();
             //cutting
