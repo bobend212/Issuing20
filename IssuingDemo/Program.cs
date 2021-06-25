@@ -17,8 +17,10 @@ namespace IssuingDemo
     {
         static async Task Main(string[] args)
         {
-            PanelMaking iss = new PanelMaking();
-            await iss.GeneratePanelMaking();
+            /*            PanelMaking iss = new PanelMaking();
+                        await iss.GeneratePanelMaking();*/
+            PanelCutting panelCutting = new PanelCutting();
+           await panelCutting.GeneratePanelCutting();
         }
 
 /*        public static async Task GeneratePanelMaking()

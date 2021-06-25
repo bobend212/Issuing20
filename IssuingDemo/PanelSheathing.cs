@@ -58,14 +58,14 @@ namespace IssuingDemo
                         await SaveExcelFile(intSq, file, "INT SQ Sh");
                     }
 
-                    if (intAng.Count > 0)
-                    {
-                        await SaveExcelFile(intAng, file, "INT ANG Sh");
-                    }
-
                     if (extSq.Count > 0)
                     {
                         await SaveExcelFile(extSq, file, "EXT SQ Sh");
+                    }
+
+                    if (intAng.Count > 0)
+                    {
+                        await SaveExcelFile(intAng, file, "INT ANG Sh");
                     }
 
                     if (extAng.Count > 0)

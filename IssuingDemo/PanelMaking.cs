@@ -63,14 +63,14 @@ namespace IssuingDemo
                         await SaveExcelFile(intSq, file, "INT SQ Panel");
                     }
 
-                    if (intAng.Count > 0)
-                    {
-                        await SaveExcelFile(intAng, file, "INT ANG Panel");
-                    }
-
                     if (extSq.Count > 0)
                     {
                         await SaveExcelFile(extSq, file, "EXT SQ Panel");
+                    }
+
+                    if (intAng.Count > 0)
+                    {
+                        await SaveExcelFile(intAng, file, "INT ANG Panel");
                     }
 
                     if (extAng.Count > 0)
@@ -84,18 +84,21 @@ namespace IssuingDemo
 
         private async Task SaveExcelFile(IEnumerable<PanelMakingModel> panels, FileInfo file, string wsName)
         {
+            
             var list = panels
                    .Select(x => new { x.PanelRef, x.Length, x.Height, x.Area, x.Weight, x.Qty })
                    .OrderBy(x => x.Area)
                    .ToList();
 
+            var wsAreaSum = panels.Sum(x => x.Area);
+            var wsLengthSum = panels.Sum(x => x.Length);
+            var wsQtySum = panels.Sum(x => x.Qty);
+
+            await AddTS(file, "TS."+wsName, wsAreaSum);
+
             using (var package = new ExcelPackage(file))
             {
                 var ws = package.Workbook.Worksheets.Add(wsName);
-
-                var wsAreaSum = panels.Sum(x => x.Area);
-                var wsLengthSum = panels.Sum(x => x.Length);
-                var wsQtySum = panels.Sum(x => x.Qty);
 
                 CreateTemplateTop(ws);
                 AddSummaryFieldsPanelMaking(ws, wsAreaSum, wsLengthSum, wsQtySum);

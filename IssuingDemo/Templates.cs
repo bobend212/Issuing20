@@ -88,5 +88,113 @@ namespace IssuingDemo
         {
             if (file.Exists) file.Delete();
         }
+
+        //Top Sheets
+        public async Task AddTS(FileInfo file, string wsName, double areaSum)
+        {
+            using (var package = new ExcelPackage(file))
+            {
+                var topSheet = package.Workbook.Worksheets.Add(wsName);
+
+                topSheet.TabColor = Color.FromArgb(255, 204, 153);
+
+                //top headers
+                topSheet.Cells["A1"].Value = _clientName.ToUpper();
+                topSheet.Cells["A1:I2"].Merge = true;
+                topSheet.Cells["A1"].Style.Font.Bold = true;
+                topSheet.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                topSheet.Cells["A1"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                topSheet.Cells["A1"].Style.Font.Size = 22;
+
+                topSheet.Cells["A3"].Value = "PLOTS: " + _plot;
+                topSheet.Cells["A3:I4"].Merge = true;
+                topSheet.Cells["A3"].Style.Font.Bold = true;
+                topSheet.Cells["A3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                topSheet.Cells["A3"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                topSheet.Cells["A3"].Style.Font.Size = 22;
+
+                topSheet.Cells["A5"].Value = "AREA: " + _setRef.ToUpper();
+                topSheet.Cells["A5:I6"].Merge = true;
+                topSheet.Cells["A5"].Style.Font.Bold = true;
+                topSheet.Cells["A5"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                topSheet.Cells["A5"].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                topSheet.Cells["A5"].Style.Font.Size = 22;
+
+                //info
+                topSheet.Cells["A8"].Value = "Delivery Date:";
+                topSheet.Cells["A8"].Style.Font.Bold = true;
+                topSheet.Cells["A8"].Style.Font.Size = 20;
+
+                topSheet.Cells["A10"].Value = "Treatment: " + Treatment(wsName);
+                topSheet.Cells["A10"].Style.Font.Bold = true;
+                topSheet.Cells["A10"].Style.Font.Size = 20;
+
+                topSheet.Cells["A12"].Value = "Paper:";
+                topSheet.Cells["A12"].Style.Font.Bold = true;
+                topSheet.Cells["A12"].Style.Font.Size = 20;
+
+                topSheet.Cells["A14"].Value = "Timesheet Code:";
+                topSheet.Cells["A14"].Style.Font.Bold = true;
+                topSheet.Cells["A14"].Style.Font.Size = 20;
+
+                topSheet.Cells["A16"].Value = "Item: " + ItemName(wsName);
+                topSheet.Cells["A16"].Style.Font.Bold = true;
+                topSheet.Cells["A16"].Style.Font.Size = 20;
+
+                topSheet.Cells["A19"].Value = "Output: " + Math.Round(areaSum, 0) + " m2";
+                topSheet.Cells["A19"].Style.Font.Bold = true;
+                topSheet.Cells["A19"].Style.Font.Size = 20;
+
+                topSheet.Cells["A21"].Value = "Job Number: " + _jobNo;
+                topSheet.Cells["A21"].Style.Font.Bold = true;
+                topSheet.Cells["A21"].Style.Font.Size = 20;
+
+                topSheet.Cells["A23:I23"].Style.Border.Top.Style = ExcelBorderStyle.Thick;
+
+                topSheet.Cells["A25"].Value = "Name:";
+                topSheet.Cells["A25"].Style.Font.Bold = true;
+                topSheet.Cells["A25"].Style.Font.Size = 20;
+
+                topSheet.Cells["A27"].Value = "Time Started:";
+                topSheet.Cells["A27"].Style.Font.Bold = true;
+                topSheet.Cells["A27"].Style.Font.Size = 20;
+
+                topSheet.Cells["A29"].Value = "Time Complete:";
+                topSheet.Cells["A29"].Style.Font.Bold = true;
+                topSheet.Cells["A29"].Style.Font.Size = 20;
+
+                await package.SaveAsync();
+            }
+        }
+
+        public static string Treatment(string wsName)
+        {
+            string treatment;
+            if (wsName.Contains("EXT"))
+            {
+                treatment = "FULL TREATED";
+            }
+            else
+            {
+                treatment = "UNTREATED";
+            }
+
+            return treatment;
+        }
+
+        public static string ItemName(string wsName)
+        {
+            string itemname;
+            if (wsName.Contains("Panel"))
+            {
+                itemname = "MAKE " + wsName.Remove(0, 3).Replace("Panel", "") + "PANELS";
+            }
+            else
+            {
+                itemname = "CUT " + wsName.Remove(0, 3).Replace("Panel", "") + "PANELS";
+            }
+
+            return itemname;
+        }
     }
 }
