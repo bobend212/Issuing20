@@ -24,7 +24,7 @@ namespace IssuingDemo
 
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                HasHeaderRecord = false,
+                HasHeaderRecord = true,
             };
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -33,6 +33,8 @@ namespace IssuingDemo
             {
                 using (var csv = new CsvReader(reader, config))
                 {
+                    csv.Read();
+                    csv.ReadHeader();
                     while (csv.Read())
                     {
                         var record = new PanelMakingModel

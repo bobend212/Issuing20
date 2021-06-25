@@ -27,6 +27,8 @@ namespace IssuingDemo
             {
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
+                    csv.Read();
+                    csv.ReadHeader();
                     while (csv.Read())
                     {
                         var record = new PanelSheathingModel
