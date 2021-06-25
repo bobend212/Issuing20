@@ -130,6 +130,10 @@ namespace IssuingDemo
                 panelRefs.RemoveAll(x => !panelTimbers.Select(y => y.PanelRef).Contains(x.PanelRef));
             }
 
+            var totalLength = panelTimbers.Sum(x => x.Length);
+            var totalQty = panelTimbers.Sum(x => x.Qty);
+
+            await AddTS(file, "TS." + wsName, 0, totalLength, totalQty);
             using (var package = new ExcelPackage(file))
             {
                 var ws = package.Workbook.Worksheets.Add(wsName);
@@ -185,6 +189,9 @@ namespace IssuingDemo
                 if (bulkStuds.Count > 0)
                 {
                     var bulkStudsWorksheet = package.Workbook.Worksheets.Add(ws.Name.Replace("Cut", "Bulks"));
+                    
+                    await AddTS(file, "TS." + bulkStudsWorksheet, 2);
+                    
                     CreateTemplateTop(bulkStudsWorksheet);
                     PrettifyCuttingTemplate(bulkStudsWorksheet);
                     AddHeadersPanelCutting(bulkStudsWorksheet, 10);

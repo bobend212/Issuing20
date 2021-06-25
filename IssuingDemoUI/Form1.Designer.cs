@@ -79,7 +79,7 @@ namespace IssuingDemoUI
             // btnOpenIssuing
             // 
             this.btnOpenIssuing.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.btnOpenIssuing.Location = new System.Drawing.Point(0, 348);
+            this.btnOpenIssuing.Location = new System.Drawing.Point(9, 348);
             this.btnOpenIssuing.Name = "btnOpenIssuing";
             this.btnOpenIssuing.Size = new System.Drawing.Size(113, 51);
             this.btnOpenIssuing.TabIndex = 8;

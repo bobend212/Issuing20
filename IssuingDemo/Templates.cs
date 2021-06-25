@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace IssuingDemo
 {
@@ -90,13 +91,13 @@ namespace IssuingDemo
         }
 
         //Top Sheets
-        public async Task AddTS(FileInfo file, string wsName, double areaSum)
+        public async Task AddTS(FileInfo file, string wsName, [Optional] double areaSum, [Optional] double lengthSum,[Optional] double qtySum)
         {
             using (var package = new ExcelPackage(file))
             {
                 var topSheet = package.Workbook.Worksheets.Add(wsName);
 
-                topSheet.TabColor = Color.FromArgb(255, 204, 153);
+                DetermineTopSheetColorTab(topSheet);
 
                 //top headers
                 topSheet.Cells["A1"].Value = _clientName.ToUpper();
@@ -141,7 +142,7 @@ namespace IssuingDemo
                 topSheet.Cells["A16"].Style.Font.Bold = true;
                 topSheet.Cells["A16"].Style.Font.Size = 20;
 
-                topSheet.Cells["A19"].Value = "Output: " + Math.Round(areaSum, 0) + " m2";
+                Output(topSheet, areaSum, lengthSum, qtySum);
                 topSheet.Cells["A19"].Style.Font.Bold = true;
                 topSheet.Cells["A19"].Style.Font.Size = 20;
 
@@ -167,6 +168,25 @@ namespace IssuingDemo
             }
         }
 
+        private static void Output(ExcelWorksheet topSheet, double areaSum, double lengthSum, double qtySum)
+        {
+            if(topSheet.Name.Contains("Panel"))  topSheet.Cells["A19"].Value = "Output: " + Math.Round(areaSum, 0) + " m2";
+
+            if (topSheet.Name.Contains("Cut") || topSheet.Name.Contains("Bat")) topSheet.Cells["A19"].Value = "Output: " 
+                    + qtySum + " CUTS, " + Math.Round(lengthSum * 0.001, 0) + " ml";
+
+            if (topSheet.Name.Contains("Sh") || topSheet.Name.Contains("Ins")) topSheet.Cells["A19"].Value = "Output: " + qtySum + " CUTS, " + Math.Round(areaSum / 1000000, 0) + " m2"; ;
+        }
+
+        private static void DetermineTopSheetColorTab(ExcelWorksheet topSheet)
+        {
+            if(topSheet.Name.Contains("Panel")) topSheet.TabColor = Color.FromArgb(255, 204, 153);
+            if(topSheet.Name.Contains("Cut")) topSheet.TabColor = Color.FromArgb(51, 204, 204);
+            if (topSheet.Name.Contains("Bat")) topSheet.TabColor = Color.FromArgb(153, 51, 0);
+            if (topSheet.Name.Contains("Sh")) topSheet.TabColor = Color.FromArgb(255, 153, 0);
+            if (topSheet.Name.Contains("Ins")) topSheet.TabColor = Color.FromArgb(51, 153, 102);
+        }
+
         public static string Treatment(string wsName)
         {
             string treatment;
@@ -184,15 +204,16 @@ namespace IssuingDemo
 
         public static string ItemName(string wsName)
         {
-            string itemname;
-            if (wsName.Contains("Panel"))
-            {
-                itemname = "MAKE " + wsName.Remove(0, 3).Replace("Panel", "") + "PANELS";
-            }
-            else
-            {
-                itemname = "CUT " + wsName.Remove(0, 3).Replace("Panel", "") + "PANELS";
-            }
+            string itemname = "";
+            if (wsName.Contains("Panel")) itemname = "MAKE " + wsName.Remove(0, 3).Replace("Panel", "") + "PANELS";
+
+            if (wsName.Contains("Cut")) itemname = "CUT " + wsName.Remove(0, 3).Replace("Cut", "") + "PANEL CLS";
+
+            if (wsName.Contains("Bat")) itemname = "CUT ULTIMA " + wsName.Remove(0, 3).Replace("Bat", "") + "BATTENS";
+
+            if (wsName.Contains("Sh")) itemname = "CUT " + wsName.Remove(0, 3).Replace("Sh", "") + "PANEL SHEATHING";
+
+            if (wsName.Contains("Ins")) itemname = "CUT " + wsName.Remove(0, 3).Replace("Ins", "") + "PANEL INSULATION";
 
             return itemname;
         }

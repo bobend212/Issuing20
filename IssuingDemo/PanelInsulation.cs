@@ -91,6 +91,18 @@ namespace IssuingDemo
                .OrderBy(x => x.Number)
                .ToList();
 
+            double areaSum = 0.0;
+            double qtySum = 0;
+
+            foreach (var item in panelInsulation)
+            {
+                areaSum += item.Height * item.Width * item.Qty;
+                if (Math.Abs(item.Height - 2400) > 4 && Math.Abs(item.Height - 1200) > 4) qtySum += item.Qty;
+                if (Math.Abs(item.Width - 2400) > 4 && Math.Abs(item.Width - 1200) > 4) qtySum += item.Qty;
+            }
+
+
+            await AddTS(file, "TS." + wsName, areaSum, 0, qtySum);
             using (var package = new ExcelPackage(file))
             {
                 var ws = package.Workbook.Worksheets.Add(wsName);
