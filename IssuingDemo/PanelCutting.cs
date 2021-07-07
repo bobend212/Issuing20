@@ -118,7 +118,7 @@ namespace IssuingDemo
                     RightCut = group.Select(x => x.RightCut),
                     Total = group.Sum(x => x.Qty),
                 })
-                    .Where(x => x.Total > 10)
+                    .Where(x => x.Total >= 50)
                     .OrderByDescending(x => x.Length)
                     .ToList();
 
@@ -132,7 +132,14 @@ namespace IssuingDemo
                 panelRefs.RemoveAll(x => !panelTimbers.Select(y => y.PanelRef).Contains(x.PanelRef));
             }
 
-            var totalLength = panelTimbers.Sum(x => x.Length);
+            //var totalLength = panelTimbers.Sum(x => x.Length);
+            var totalLength = 0.0;
+
+            foreach (var item in panelTimbers)
+            {
+                totalLength += item.Length * item.Qty;
+            }
+
             var totalQty = panelTimbers.Sum(x => x.Qty);
 
             await AddTS(file, "TS." + wsName, 0, totalLength, totalQty);
