@@ -1,4 +1,5 @@
 ﻿using IssuingDemo;
+using IssuingDemoLogger;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,15 +46,23 @@ namespace IssuingDemoUI
             panelInsulation._plot = txtPlot.Text;
             panelInsulation._setRef = cbSetRef.Text;
 
-            //insulation
-            if (cbInsulation.Checked) await panelInsulation.GeneratePanelInsulation();
-            //sheathing
-            if (cbSheathing.Checked) await panelSheathing.GeneratePanelSheathing();
-            //cutting
-            if (cbCutting.Checked) await panelCutting.GeneratePanelCutting();
-            //making
-            if (cbPanels.Checked) await panelMaking.GeneratePanelMaking();
-
+            try
+            {
+                //insulation
+                if (cbInsulation.Checked) await panelInsulation.GeneratePanelInsulation();
+                //sheathing
+                if (cbSheathing.Checked) await panelSheathing.GeneratePanelSheathing();
+                //cutting
+                if (cbCutting.Checked) await panelCutting.GeneratePanelCutting();
+                //making
+                if (cbPanels.Checked) await panelMaking.GeneratePanelMaking();
+            }       
+            catch (Exception ex)
+            {
+                var logger = new ConsoleLoggerBuilder().WithPath("logs.txt").WithDate().Build();
+                logger.Log(ex.Message);
+                MessageBox.Show(ex.Message);
+            }
 
         }
 

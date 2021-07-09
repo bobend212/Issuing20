@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using IssuingDemoLogger;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
@@ -28,7 +29,7 @@ namespace IssuingDemo
             };
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
+            
             using (var reader = new StreamReader(@"C:\Users\mateusz.konopka\Work Folders\Desktop\Issuing 2.0\19007GF_elevations.csv"))
             {
                 using (var csv = new CsvReader(reader, config))
@@ -86,29 +87,31 @@ namespace IssuingDemo
 
         private async Task SaveExcelFile(IEnumerable<PanelMakingModel> panels, FileInfo file, string wsName)
         {
-            
-            var list = panels
+
+                var list = panels
                    .Select(x => new { x.PanelRef, x.Length, x.Height, x.Area, x.Weight, x.Qty })
                    .OrderBy(x => x.Area)
                    .ToList();
 
-            var wsAreaSum = panels.Sum(x => x.Area);
-            var wsLengthSum = panels.Sum(x => x.Length);
-            var wsQtySum = panels.Sum(x => x.Qty);
+                var wsAreaSum = panels.Sum(x => x.Area);
+                var wsLengthSum = panels.Sum(x => x.Length);
+                var wsQtySum = panels.Sum(x => x.Qty);
 
-            await AddTS(file, "TS."+wsName, wsAreaSum);
+                await AddTS(file, "TS." + wsName, wsAreaSum);
 
             using (var package = new ExcelPackage(file))
-            {
-                var ws = package.Workbook.Worksheets.Add(wsName);
+                {
+                    var ws = package.Workbook.Worksheets.Add(wsName);
 
-                CreateTemplateTop(ws);
-                AddSummaryFieldsPanelMaking(ws, wsAreaSum, wsLengthSum, wsQtySum);
-                AddHeadersPanelMaking(ws);
+                    CreateTemplateTop(ws);
+                    AddSummaryFieldsPanelMaking(ws, wsAreaSum, wsLengthSum, wsQtySum);
+                    AddHeadersPanelMaking(ws);
 
-                var range = ws.Cells["A14"].LoadFromCollection(list, false);
-                await package.SaveAsync();
-            }
+                    var range = ws.Cells["A14"].LoadFromCollection(list, false);
+                    await package.SaveAsync();
+                }
+
+
 
         }
 

@@ -10,4 +10,8 @@
     <PackageReference Include="EPPlus" Version="5.7.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IssuingDemoLogger\IssuingDemoLogger.csproj" />
+  </ItemGroup>
+
 </Project>
