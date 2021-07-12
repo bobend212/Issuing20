@@ -32,6 +32,8 @@ namespace IssuingDemoUI
             this.label1 = new System.Windows.Forms.Label();
             this.txtClientName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtMbaJob = new System.Windows.Forms.TextBox();
             this.btnOpenIssuing = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,9 +56,9 @@ namespace IssuingDemoUI
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 15);
+            this.label1.Size = new System.Drawing.Size(38, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Client Name";
+            this.label1.Text = "Client";
             // 
             // txtClientName
             // 
@@ -67,6 +69,8 @@ namespace IssuingDemoUI
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.txtMbaJob);
             this.groupBox1.Controls.Add(this.btnOpenIssuing);
             this.groupBox1.Controls.Add(this.flowLayoutPanel1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -75,6 +79,22 @@ namespace IssuingDemoUI
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 216);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 15);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "MBA Job";
+            // 
+            // txtMbaJob
+            // 
+            this.txtMbaJob.Location = new System.Drawing.Point(9, 234);
+            this.txtMbaJob.Name = "txtMbaJob";
+            this.txtMbaJob.Size = new System.Drawing.Size(250, 23);
+            this.txtMbaJob.TabIndex = 10;
             // 
             // btnOpenIssuing
             // 
@@ -85,6 +105,7 @@ namespace IssuingDemoUI
             this.btnOpenIssuing.TabIndex = 8;
             this.btnOpenIssuing.Text = "Open Issuing";
             this.btnOpenIssuing.UseVisualStyleBackColor = false;
+            this.btnOpenIssuing.Click += new System.EventHandler(this.btnOpenIssuing_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -98,7 +119,7 @@ namespace IssuingDemoUI
             this.flowLayoutPanel1.Controls.Add(this.cbSetRef);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(6, 22);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(263, 193);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(263, 191);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
             // label2
@@ -122,9 +143,9 @@ namespace IssuingDemoUI
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(3, 88);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(28, 15);
+            this.label3.Size = new System.Drawing.Size(41, 15);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Plot";
+            this.label3.Text = "Plot(s)";
             // 
             // txtPlot
             // 
@@ -138,9 +159,9 @@ namespace IssuingDemoUI
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 132);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 15);
+            this.label4.Size = new System.Drawing.Size(31, 15);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Set Ref.";
+            this.label4.Text = "Area";
             // 
             // cbSetRef
             // 
@@ -226,6 +247,7 @@ namespace IssuingDemoUI
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Issuing 2.0";
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -251,5 +273,7 @@ namespace IssuingDemoUI
         private System.Windows.Forms.CheckBox cbSheathing;
         private System.Windows.Forms.Button btnOpenIssuing;
         private System.Windows.Forms.CheckBox cbInsulation;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtMbaJob;
     }
 }

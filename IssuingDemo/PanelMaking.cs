@@ -29,8 +29,9 @@ namespace IssuingDemo
             };
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            
-            using (var reader = new StreamReader(@"C:\Users\mateusz.konopka\Work Folders\Desktop\Issuing 2.0\19007GF_elevations.csv"))
+
+            //using (var reader = new StreamReader(@"C:\Users\mateusz.konopka\Work Folders\Desktop\Issuing 2.0\19007GF_elevations.csv"))
+            using (var reader = new StreamReader($@"C:\MiTek\UK\jobs\{_mbaJob}\Attachments\{_mbaJob}_elevations.csv"))
             {
                 using (var csv = new CsvReader(reader, config))
                 {
@@ -57,8 +58,7 @@ namespace IssuingDemo
 
                     }
                     //
-                    var file = new FileInfo(@"C:\Users\mateusz.konopka\Work Folders\Desktop\Issuing 2.0\" 
-                        + _jobNo + "_issuing.xlsx");
+                    var file = new FileInfo($@"C:\MiTek\UK\jobs\{_mbaJob}\Attachments\{_jobNo}_issuing.xlsx");
                     //DeleteIfExist(file);
 
                     if (intSq.Count > 0)
@@ -88,7 +88,7 @@ namespace IssuingDemo
         private async Task SaveExcelFile(IEnumerable<PanelMakingModel> panels, FileInfo file, string wsName)
         {
 
-                var list = panels
+            var list = panels
                    .Select(x => new { x.PanelRef, x.Length, x.Height, x.Area, x.Weight, x.Qty })
                    .OrderBy(x => x.Area)
                    .ToList();
@@ -110,8 +110,6 @@ namespace IssuingDemo
                     var range = ws.Cells["A14"].LoadFromCollection(list, false);
                     await package.SaveAsync();
                 }
-
-
 
         }
 

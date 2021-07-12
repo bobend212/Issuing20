@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -30,21 +31,25 @@ namespace IssuingDemoUI
             panelMaking._jobNo = txtJobNo.Text;
             panelMaking._plot = txtPlot.Text;
             panelMaking._setRef = cbSetRef.Text;
+            panelMaking._mbaJob = txtMbaJob.Text.Trim();
 
             panelCutting._clientName = txtClientName.Text;
             panelCutting._jobNo = txtJobNo.Text;
             panelCutting._plot = txtPlot.Text;
             panelCutting._setRef = cbSetRef.Text;
+            panelCutting._mbaJob = txtMbaJob.Text.Trim();
 
             panelSheathing._clientName = txtClientName.Text;
             panelSheathing._jobNo = txtJobNo.Text;
             panelSheathing._plot = txtPlot.Text;
             panelSheathing._setRef = cbSetRef.Text;
+            panelSheathing._mbaJob = txtMbaJob.Text.Trim();
 
             panelInsulation._clientName = txtClientName.Text;
             panelInsulation._jobNo = txtJobNo.Text;
             panelInsulation._plot = txtPlot.Text;
             panelInsulation._setRef = cbSetRef.Text;
+            panelInsulation._mbaJob = txtMbaJob.Text.Trim();
 
             try
             {
@@ -59,14 +64,17 @@ namespace IssuingDemoUI
             }       
             catch (Exception ex)
             {
-                var logger = new ConsoleLoggerBuilder().WithPath("logs.txt").WithDate().Build();
+                var logger = new FileLoggerBuilder().WithPath("logs.txt").WithDate().Build();
                 logger.Log(ex.Message);
                 MessageBox.Show(ex.Message);
             }
 
         }
 
-
-
+        private void btnOpenIssuing_Click(object sender, EventArgs e)
+        {
+            string pathToIssuing = $@"C:\MiTek\UK\jobs\{txtMbaJob.Text.Trim()}\Attachments\{txtJobNo.Text}_issuing.xlsx";
+            Process.Start(new ProcessStartInfo(pathToIssuing) { UseShellExecute = true });
+        }
     }
 }

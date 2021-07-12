@@ -23,7 +23,7 @@ namespace IssuingDemo
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            using (var reader = new StreamReader(@"C:\Users\mateusz.konopka\Work Folders\Desktop\Issuing 2.0\19007GF_sheathing.csv"))
+            using (var reader = new StreamReader($@"C:\MiTek\UK\jobs\{_mbaJob}\Attachments\{_mbaJob}_sheathing.csv"))
             {
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
@@ -51,8 +51,7 @@ namespace IssuingDemo
 
                     }
                     //
-                    var file = new FileInfo(@"C:\Users\mateusz.konopka\Work Folders\Desktop\Issuing 2.0\"
-                        + _jobNo + "_issuing.xlsx");
+                    var file = new FileInfo($@"C:\MiTek\UK\jobs\{_mbaJob}\Attachments\{_jobNo}_issuing.xlsx");
                     //DeleteIfExist(file);
 
                     if (intSq.Count > 0)

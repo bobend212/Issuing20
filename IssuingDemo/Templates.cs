@@ -18,6 +18,7 @@ namespace IssuingDemo
         public string _jobNo;
         public string _plot;
         public string _setRef;
+        public string _mbaJob;
 
         public void CreateTemplateTop(ExcelWorksheet ws)
         {
@@ -217,5 +218,6 @@ namespace IssuingDemo
 
             return itemname;
         }
+
     }
 }
